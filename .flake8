@@ -1,0 +1,7 @@
+[flake8]
+exclude = venv, __pycache__, migrations
+max-line-length = 120
+ignore = F401
+
+; this is the unused import lint check we can enable this to 
+; ignore unused imports

@@ -5,6 +5,7 @@ from django.db.models import Min, Max
 from .models import Country, State, City
 from .serializers import CountrySerializer, StateSerializer, CitySerializer
 
+
 def hello_world(request):
     return HttpResponse("Hello World")
 
@@ -21,6 +22,7 @@ class ListCreateCountry(generics.ListCreateAPIView):
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 class ListCreateState(generics.ListCreateAPIView):
     queryset = State.objects.all()
     serializer_class = StateSerializer
@@ -32,6 +34,7 @@ class ListCreateState(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class ListCreateCity(generics.ListCreateAPIView):
     queryset = City.objects.all()
@@ -45,22 +48,26 @@ class ListCreateCity(generics.ListCreateAPIView):
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 class BulkUpdateCountry(generics.GenericAPIView):
     serializer_class = CountrySerializer
 
     def put(self, request):
         errors = []
         for item in request.data:
-            country = get_object_or_404(Country, id=item.get('id'))
+            country = get_object_or_404(Country, id=item.get("id"))
             serializer = self.get_serializer(country, data=item, partial=True)
             if serializer.is_valid():
                 serializer.save()
             else:
-                errors.append({ "id": item.get('id'), "errors": serializer.errors })
+                errors.append({"id": item.get("id"), "errors": serializer.errors})
 
         if errors:
-            return Response({ "message": "Some updates failed", "details": errors }, status=400)
-        return Response({ "message": "Countries updated" }, status=200)
+            return Response(
+                {"message": "Some updates failed", "details": errors}, status=400
+            )
+        return Response({"message": "Countries updated"}, status=200)
+
 
 class BulkUpdateState(generics.GenericAPIView):
     serializer_class = StateSerializer
@@ -68,16 +75,19 @@ class BulkUpdateState(generics.GenericAPIView):
     def put(self, request):
         errors = []
         for item in request.data:
-            state = get_object_or_404(State, id=item.get('id'))
+            state = get_object_or_404(State, id=item.get("id"))
             serializer = self.get_serializer(state, data=item, partial=True)
             if serializer.is_valid():
                 serializer.save()
             else:
-                errors.append({ "id": item.get('id'), "errors": serializer.errors })
+                errors.append({"id": item.get("id"), "errors": serializer.errors})
 
         if errors:
-            return Response({ "message": "Some updates failed", "details": errors }, status=400)
-        return Response({ "message": "States updated" }, status=200)
+            return Response(
+                {"message": "Some updates failed", "details": errors}, status=400
+            )
+        return Response({"message": "States updated"}, status=200)
+
 
 class BulkUpdateCity(generics.GenericAPIView):
     serializer_class = CitySerializer
@@ -85,16 +95,18 @@ class BulkUpdateCity(generics.GenericAPIView):
     def put(self, request):
         errors = []
         for item in request.data:
-            city = get_object_or_404(City, id=item.get('id'))
+            city = get_object_or_404(City, id=item.get("id"))
             serializer = self.get_serializer(city, data=item, partial=True)
             if serializer.is_valid():
                 serializer.save()
             else:
-                errors.append({ "id": item.get('id'), "errors": serializer.errors })
+                errors.append({"id": item.get("id"), "errors": serializer.errors})
 
         if errors:
-            return Response({ "message": "Some updates failed", "details": errors }, status=400)
-        return Response({ "message": "Cities updated" }, status=200)
+            return Response(
+                {"message": "Some updates failed", "details": errors}, status=400
+            )
+        return Response({"message": "Cities updated"}, status=200)
 
 
 class AllDataView(generics.ListAPIView):
@@ -103,36 +115,31 @@ class AllDataView(generics.ListAPIView):
         states = StateSerializer(State.objects.all(), many=True).data
         cities = CitySerializer(City.objects.all(), many=True).data
 
-        return Response({
-            "countries": countries,
-            "states": states,
-            "cities": cities
-        })
+        return Response({"countries": countries, "states": states, "cities": cities})
 
 
 class CitiesOfState(generics.ListAPIView):
     serializer_class = CitySerializer
 
     def get_queryset(self):
-        return City.objects.filter(state_id=self.kwargs['state_id'])
+        return City.objects.filter(state_id=self.kwargs["state_id"])
+
 
 class CitiesOfCountryName(generics.ListAPIView):
     serializer_class = CitySerializer
 
     def get_queryset(self):
-        return City.objects.filter(state__country__name=self.kwargs['country_name'])
+        return City.objects.filter(state__country__name=self.kwargs["country_name"])
+
 
 class CitiesOfCountryId(generics.ListAPIView):
     serializer_class = CitySerializer
 
     def get_queryset(self):
-        return City.objects.filter(state__country_id=self.kwargs['country_id'])
+        return City.objects.filter(state__country_id=self.kwargs["country_id"])
 
 
 class MinMaxPopulationView(generics.GenericAPIView):
     def get(self, request):
-        agg = City.objects.aggregate(min=Min('population'), max=Max('population'))
-        return Response({
-            "min_population": agg['min'],
-            "max_population": agg['max']
-        })
+        agg = City.objects.aggregate(min=Min("population"), max=Max("population"))
+        return Response({"min_population": agg["min"], "max_population": agg["max"]})

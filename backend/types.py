@@ -1,15 +1,15 @@
-from typing import TypedDict    
+from typing import TypedDict
 import uuid
 
 
 class CountryDict(TypedDict):
-    id : uuid.UUID
-    name:str
+    id: uuid.UUID
+    name: str
     country_code: str
     currency_symbol: str
     phone_code: str
-    
-    
+
+
 class StateDict(TypedDict):
     id: uuid.UUID
     name: str
