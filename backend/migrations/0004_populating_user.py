@@ -3,22 +3,22 @@
 from django.db import migrations
 import random
 
-def add_users(apps,schema_editor):
+
+def add_users(apps, schema_editor):
     User = apps.get_model("backend", "User")
     Country = apps.get_model("backend", "Country")
-    
+
     if User.objects.count() == 0:
         for i in range(1, 6):
             user = User.objects.create(username=f"user{i}@example.com")
             user.save()
-            
+
     users = list(User.objects.all())
     countries = Country.objects.all()
-    
+
     for i in countries:
         i.user = random.choice(users)
         i.save()
-    
 
 
 class Migration(migrations.Migration):
@@ -27,6 +27,4 @@ class Migration(migrations.Migration):
         ("backend", "0003_country_user"),
     ]
 
-    operations = [
-        migrations.RunPython(add_users, migrations.RunPython.noop)
-    ]
+    operations = [migrations.RunPython(add_users, migrations.RunPython.noop)]

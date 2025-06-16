@@ -2,8 +2,14 @@ from django.shortcuts import HttpResponse, get_object_or_404
 from rest_framework.response import Response
 from rest_framework import generics, status
 from django.db.models import Min, Max
-from .models import Country, State, City
-from .serializers import CountrySerializer, StateSerializer, CitySerializer
+from .models import Country, State, City, User
+from .serializers import CountrySerializer, StateSerializer, CitySerializer, UserSerializer
+
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.hashers import check_password
+
+
 
 
 def hello_world(request):
@@ -143,3 +149,84 @@ class MinMaxPopulationView(generics.GenericAPIView):
     def get(self, request):
         agg = City.objects.aggregate(min=Min("population"), max=Max("population"))
         return Response({"min_population": agg["min"], "max_population": agg["max"]})
+
+
+
+############
+# User sign in and sign up
+#############
+
+
+class SignUpView(generics.GenericAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        print("SAVED USER:", user)
+        print(type(user),"  before conversion")
+        user = User.objects.get(username=user.username)  # Ensure we get the user instance after creation
+        print(type(user),"   after conversion")
+        # token, created = Token.objects.get_or_create(user=user)
+        response_data = {"message": "User created successfully", "user_id": str(user.id)}
+        
+        response = Response(response_data, status=status.HTTP_201_CREATED)
+        # response.set_cookie(
+        #     key='auth_token',
+        #     value=token.key,
+        #     httponly=True,
+        #     samesite='None',
+        #     secure=request.is_secure(), # Set Secure flag if served over HTTPS
+        #     path='/' # Make cookie available site-wide
+        # )
+        return response
+    
+class SignInView(generics.GenericAPIView):
+    serializer_class = UserSerializer # Not strictly needed for input if only username/password
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        
+        if not username or not password:
+            return Response({"error": "Username and password are required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = User.objects.get(username=username)
+            # Check hashed password
+            if check_password(password, user.password):
+                token, created = Token.objects.get_or_create(user=user)
+                response_data = {"message": "Sign in successful", "user_id": str(user.id)}
+                
+                response = Response(response_data, status=status.HTTP_200_OK)
+                response.set_cookie(
+                    key='auth_token',
+                    value=token.key,
+                    httponly=True,
+                    samesite='None',
+                    secure=request.is_secure(), # Set Secure flag if served over HTTPS
+                    path='/' # Make cookie available site-wide
+                )
+                return response
+            else:
+                return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND) # Changed from "User does not exist" for clarity
+        
+class SignOutUserView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated] # Requires token authentication to be set up
+
+    def post(self, request, *args, **kwargs):
+        try:
+            # request.user.auth_token relies on TokenAuthentication being configured
+            request.user.auth_token.delete()
+        except (AttributeError, Token.DoesNotExist):
+            # Handle cases where token might not exist or user is not authenticated via token
+            pass 
+        
+        response = Response({"message": "User signed out successfully"}, status=status.HTTP_200_OK)
+        response.delete_cookie('auth_token', samesite='Lax', path='/')
+        return response
