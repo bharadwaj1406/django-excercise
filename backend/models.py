@@ -25,12 +25,9 @@ class User(models.Model):
     id: uuid.UUID = models.UUIDField(
         primary_key=True, editable=False, default=uuid.uuid4
     )
-    
-    
+
     username: str = models.EmailField(max_length=100, unique=True)
     password: str = models.CharField(max_length=100, null=True, blank=True)
-
-
 
     def __str__(self):
         return f"{self.username}"
