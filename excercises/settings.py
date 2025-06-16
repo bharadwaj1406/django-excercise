@@ -88,10 +88,13 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "backend_excercises",
-        "USER": "reddy",
-        "PASSWORD": "reddy",
-        "HOST": "localhost",
+        "USER": "rootuser",
+        "PASSWORD": "Reddy1406",
+        "HOST": "excercise.postgres.database.azure.com",
         "PORT": "5432",
+        "OPTIONS": {
+            "sslmode": "require",
+        },
     }
 }
 
