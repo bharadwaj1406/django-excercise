@@ -13,9 +13,9 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: test_db
+          POSTGRES_USER: = reddy
+          POSTGRES_PASSWORD: reddy1406
+          POSTGRES_DB: backend_excercises
         options: >-
           --health-cmd "pg_isready -U postgres"
           --health-interval 10s
