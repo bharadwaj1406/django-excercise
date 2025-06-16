@@ -14,7 +14,7 @@ jobs:
           - 5432:5432
         env:
           POSTGRES_USER: = reddy
-          POSTGRES_PASSWORD: reddy1406
+          POSTGRES_PASSWORD: reddy
           POSTGRES_DB: backend_excercises
         options: >-
           --health-cmd "pg_isready -U postgres"
