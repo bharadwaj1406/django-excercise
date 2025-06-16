@@ -14,9 +14,21 @@ class Country(models.Model):
     country_code: str = models.CharField(max_length=10)
     currency_symbol: str = models.CharField(max_length=10)
     phone_code: str = models.CharField(max_length=5)
+    
+    user = models.ForeignKey(
+        "User", on_delete=models.CASCADE, null=True, blank=True
+    )
+    
 
     def __str__(self):
         return f"{self.name} is the country "
+    
+    
+class User(models.Model):
+    id : uuid.UUID = models.UUIDField(
+        primary_key=True, editable=False, default=uuid.uuid4
+    )
+    username: str = models.EmailField(max_length=100, unique=True)
 
 
 class State(models.Model):

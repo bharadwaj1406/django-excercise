@@ -11,6 +11,7 @@ class CountryDict(TypedDict):
 
 
 class StateDict(TypedDict):
+
     id: uuid.UUID
     name: str
     state_code: str
