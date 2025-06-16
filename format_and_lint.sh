@@ -16,3 +16,11 @@ black .
 # Lint the code using flake8
 flake8 .
 
+echo "bandit code security check..."
+
+# bandit -r . -x venv,*/migrations
+
+bandit -r . -x ./venv/,.*/migrations/,./.git
+
+
+

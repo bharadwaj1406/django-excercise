@@ -2,11 +2,13 @@
 
 from django.db import migrations
 
+
 def add_password_field(apps, schema_editor):
     User = apps.get_model("backend", "User")
     for user in User.objects.all():
-        user.password = "password123"  
+        user.password = "password123"
     User.objects.bulk_update(User.objects.all(), ["password"])
+
 
 class Migration(migrations.Migration):
 
@@ -14,6 +16,4 @@ class Migration(migrations.Migration):
         ("backend", "0005_user_password"),
     ]
 
-    operations = [
-        migrations.RunPython(add_password_field, migrations.RunPython.noop)
-    ]
+    operations = [migrations.RunPython(add_password_field, migrations.RunPython.noop)]

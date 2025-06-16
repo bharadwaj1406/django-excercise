@@ -3,12 +3,14 @@
 from django.db import migrations
 from django.contrib.auth.hashers import make_password
 
+
 def hash_passwords(apps, schema_editor):
     User = apps.get_model("backend", "User")
     for user in User.objects.all():
-        if user.password :
+        if user.password:
             user.password = make_password(user.password)
             user.save()
+
 
 class Migration(migrations.Migration):
 

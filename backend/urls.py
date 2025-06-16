@@ -35,11 +35,7 @@ urlpatterns = [
         views.MinMaxPopulationView.as_view(),
         name="minmax_population",
     ),
-    
-    
-    
-    path('api/token/signup/', views.SignUpView.as_view(), name='user_signup'),
-    path('api/token/signin/', views.SignInView.as_view(), name='user_signin'),
-    path('api/token/signout/', views.SignOutUserView.as_view(), name='user_signout'),
-    
+    path("api/token/signup/", views.SignUpView.as_view(), name="user_signup"),
+    path("api/token/signin/", views.SignInView.as_view(), name="user_signin"),
+    path("api/token/signout/", views.SignOutUserView.as_view(), name="user_signout"),
 ]
