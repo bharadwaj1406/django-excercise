@@ -10,7 +10,12 @@
 
 docker builder prune -a -f
 
-docker compose up --build -d
+docker build -t django-server:latest .
+docker tag django-server:latest bharadwajreddy/django-server:latest
+
+docker login
+
+docker push bharadwajreddy/django-server:latest
 
 
 
