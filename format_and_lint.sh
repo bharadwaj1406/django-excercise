@@ -20,7 +20,10 @@ echo "bandit code security check..."
 
 # bandit -r . -x venv,*/migrations
 
-bandit -r . -x ./venv/,.*/migrations/,./.git
+# bandit -r . -x ./venv/,.*/migrations/,./.git
+
+bandit -r . -x ./venv,./backend/migrations,./.git
+
 
 
 
