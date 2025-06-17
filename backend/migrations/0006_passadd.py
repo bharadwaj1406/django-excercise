@@ -7,6 +7,7 @@ def add_password_field(apps, schema_editor):
     User = apps.get_model("backend", "User")
     for user in User.objects.all():
         user.password = "password123"
+        # user.update(password="password123")
     User.objects.bulk_update(User.objects.all(), ["password"])
 
 

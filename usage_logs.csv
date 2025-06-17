@@ -1,0 +1,14 @@
+Timestamp, CPU %, Mem Usage / Limit, Mem %, Net I/O, Block I/O
+2025-06-17 10:53:31, django_server, 1.11%, 97.02MiB / 7.603GiB, 1.25%, 139kB / 575kB, 254kB / 0B
+2025-06-17 10:53:43, django_server, 1.39%, 97.02MiB / 7.603GiB, 1.25%, 140kB / 575kB, 254kB / 0B
+2025-06-17 10:53:55, django_server, 1.07%, 97.27MiB / 7.603GiB, 1.25%, 140kB / 576kB, 254kB / 0B
+2025-06-17 10:54:07, django_server, 1.50%, 97.02MiB / 7.603GiB, 1.25%, 140kB / 576kB, 254kB / 0B
+2025-06-17 10:54:18, django_server, 1.06%, 97.27MiB / 7.603GiB, 1.25%, 141kB / 576kB, 254kB / 0B
+2025-06-17 10:54:31, django_server, 1.50%, 97.02MiB / 7.603GiB, 1.25%, 141kB / 577kB, 254kB / 0B
+2025-06-17 10:54:43, django_server, 1.36%, 97.02MiB / 7.603GiB, 1.25%, 141kB / 577kB, 254kB / 0B
+2025-06-17 10:54:55, django_server, 1.00%, 97.27MiB / 7.603GiB, 1.25%, 142kB / 577kB, 254kB / 0B
+2025-06-17 10:55:07, django_server, 1.39%, 97.27MiB / 7.603GiB, 1.25%, 142kB / 578kB, 254kB / 0B
+2025-06-17 10:55:18, django_server, 1.19%, 97.02MiB / 7.603GiB, 1.25%, 142kB / 578kB, 254kB / 0B
+2025-06-17 10:55:31, django_server, 1.28%, 97.02MiB / 7.603GiB, 1.25%, 142kB / 578kB, 254kB / 0B
+2025-06-17 10:55:43, django_server, 1.17%, 97.27MiB / 7.603GiB, 1.25%, 143kB / 579kB, 254kB / 0B
+2025-06-17 10:55:55, django_server, 1.31%, 97.27MiB / 7.603GiB, 1.25%, 143kB / 579kB, 254kB / 0B

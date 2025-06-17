@@ -27,7 +27,8 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["dj-server.mangobeach-9d798e9d.centralindia.azurecontainerapps.io"]
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ["dj-server.mangobeach-9d798e9d.centralindia.azurecontainerapps.io"]
 
 
 # Application definition
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     "backend",
     "rest_framework",
     "rest_framework.authtoken",
+    "silk",
+    
 ]
 
 REST_FRAMEWORK = {
@@ -58,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "silk.middleware.SilkyMiddleware",  
 ]
 
 ROOT_URLCONF = "excercises.urls"
@@ -88,15 +92,25 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "backend_excercises",
-        "USER": "rootuser",
-        "PASSWORD": "Reddy1406",
-        "HOST": "excercise.postgres.database.azure.com",
+        "USER": "reddy",
+        "PASSWORD": "reddy",
+        "HOST": "db",
         "PORT": "5432",
-        "OPTIONS": {
-            "sslmode": "require",
-        },
     }
 }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "backend_excercises",
+#         "USER": "rootuser",
+#         "PASSWORD": "Reddy1406",
+#         "HOST": "excercise.postgres.database.azure.com",
+#         "PORT": "5432",
+#         "OPTIONS": {
+#             "sslmode": "require",
+#         },
+#     }
+# }
 
 
 # Password validation
